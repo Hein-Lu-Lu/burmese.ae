@@ -224,10 +224,7 @@ window.addEventListener("scroll", () => {
   window.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal();
   });
-  const text = button.dataset.text;
-
-// Convert \n to <br>
-element.innerHTML = text.replace(/\n/g, "<br>");
+ 
 
   const btn = document.getElementById("aboutToggle");
   const shortBlock = document.getElementById("aboutShort");
