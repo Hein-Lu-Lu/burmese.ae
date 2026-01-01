@@ -96,8 +96,12 @@
     if (window.scrollY > 50) {
       header.classList.remove("bg-transparent");
       header.classList.add("bg-white/30", "backdrop-blur-lg");
+      header.classList.remove("text-white");
+      header.classList.add("text-gray-900");
     } else {
-      header.classList.remove("bg-white/30", "backdrop-blur-lg");
-      header.classList.add("bg-transparent");
+    header.classList.add("text-white");
+    header.classList.remove("text-gray-900");
+    header.classList.remove("bg-white/30", "backdrop-blur-lg");
+    header.classList.add("bg-transparent");
     }
   });        
