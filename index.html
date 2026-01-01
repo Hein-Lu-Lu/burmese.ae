@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burmese.ae - Myanmar Community Services in UAE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .hero-bg {
+            background: linear-gradient(to bottom, #fb923c, #fdba74, #fde047);
+        }
+        .balloon {
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <!-- Top Banner -->
+    <div class="bg-gradient-to-r from-orange-400 to-orange-300 text-gray-800 py-2 px-4 text-center relative">
+        <svg class="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        <span class="text-sm font-medium">Welcome to Burmese.ae</span>
+        <svg class="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="relative h-screen hero-bg">
+        <!-- Navigation -->
+        <nav class="flex items-center justify-between px-8 py-4 bg-transparent relative z-20">
+            <div class="text-2xl font-bold text-white">Burmese.ae</div>
+            <div class="hidden md:flex space-x-8 text-white">
+                <a href="#about" class="hover:text-gray-200 transition">About</a>
+                <a href="#service" class="hover:text-gray-200 transition">Service</a>
+                <a href="#contact" class="hover:text-gray-200 transition">Contact</a>
+            </div>
+            <svg class="text-white w-6 h-6 cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+        </nav>
+
+        <!-- Background Image Overlay -->
+        <div class="absolute inset-0 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=1200&h=800&fit=crop" 
+                 alt="Bagan temples" 
+                 class="w-full h-full object-cover opacity-30 mix-blend-multiply">
+        </div>
+
+        <!-- Hot Air Balloons -->
+        <div class="absolute top-12 right-32 w-20 h-24 bg-gray-800 balloon opacity-60 z-10"></div>
+        <div class="absolute top-24 right-1/4 w-16 h-20 bg-gray-700 balloon opacity-50 z-10"></div>
+        <div class="absolute top-40 right-1/3 w-14 h-18 bg-gray-600 balloon opacity-40 z-10"></div>
+        <div class="absolute top-32 left-1/4 w-12 h-16 bg-gray-700 balloon opacity-45 z-10"></div>
+
+        <!-- Contact Form -->
+        <div class="absolute right-8 top-1/2 transform -translate-y-1/2 z-20 w-full max-w-sm px-4 md:px-0">
+            <div class="bg-white bg-opacity-95 backdrop-blur-sm rounded-2xl shadow-2xl p-6">
+                <form id="contactForm" class="space-y-4">
+                    <input
+                        type="text"
+                        name="name"
+                        placeholder="Name"
+                        required
+                        class="w-full px-4 py-3 bg-orange-100 border-2 border-orange-200 rounded-lg focus:outline-none focus:border-orange-400 transition"
+                    />
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        required
+                        class="w-full px-4 py-3 bg-orange-100 border-2 border-orange-200 rounded-lg focus:outline-none focus:border-orange-400 transition"
+                    />
+                    <input
+                        type="tel"
+                        name="phone"
+                        placeholder="Phone"
+                        required
+                        class="w-full px-4 py-3 bg-orange-100 border-2 border-orange-200 rounded-lg focus:outline-none focus:border-orange-400 transition"
+                    />
+                    <textarea
+                        name="message"
+                        placeholder="Your message or service inquiry..."
+                        required
+                        rows="4"
+                        class="w-full px-4 py-3 bg-orange-100 border-2 border-orange-200 rounded-lg focus:outline-none focus:border-orange-400 resize-none transition"
+                    ></textarea>
+                    <button
+                        type="submit"
+                        class="w-full bg-gray-900 text-white py-3 rounded-lg hover:bg-gray-800 transition-all transform hover:scale-105 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                    >
+                        <span id="submitText">Submit</span>
+                    </button>
+                    <div id="formMessage" class="text-center text-sm font-medium hidden"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="max-w-4xl mx-auto px-8 py-16" id="faq">
+        <h2 class="text-4xl font-bold mb-12 text-gray-900">FAQ</h2>
+        <div class="space-y-2">
+            <div class="border-b border-gray-200">
+                <button class="faq-button w-full flex items-center justify-between py-5 text-left hover:text-orange-500 transition-colors group">
+                    <span class="text-lg font-medium">About Burmese.ae</span>
+                    <svg class="w-5 h-5 transition-transform duration-300 faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div class="faq-content hidden pb-5 text-gray-600 leading-relaxed">
+                    Burmese.ae is your trusted partner for Myanmar community services in the UAE. We provide comprehensive support for documentation, translation, and administrative services tailored for Myanmar nationals living and working in the Emirates.
+                </div>
+            </div>
+
+            <div class="border-b border-gray-200">
+                <button class="faq-button w-full flex items-center justify-between py-5 text-left hover:text-orange-500 transition-colors group">
+                    <span class="text-lg font-medium">Our Services</span>
+                    <svg class="w-5 h-5 transition-transform duration-300 faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div class="faq-content hidden pb-5 text-gray-600 leading-relaxed">
+                    We offer passport renewal, visa services, document translation, notarization, attestation services, and general consultation for Myanmar nationals in the UAE. Our team handles all embassy communications and paperwork processing.
+                </div>
+            </div>
+
+            <div class="border-b border-gray-200">
+                <button class="faq-button w-full flex items-center justify-between py-5 text-left hover:text-orange-500 transition-colors group">
+                    <span class="text-lg font-medium">Service Locations</span>
+                    <svg class="w-5 h-5 transition-transform duration-300 faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div class="faq-content hidden pb-5 text-gray-600 leading-relaxed">
+                    We are located in Dubai and serve clients across all Emirates including Abu Dhabi, Sharjah, Ajman, and more. Remote services are also available for document processing and consultation.
+                </div>
+            </div>
+
+            <div class="border-b border-gray-200">
+                <button class="faq-button w-full flex items-center justify-between py-5 text-left hover:text-orange-500 transition-colors group">
+                    <span class="text-lg font-medium">Pricing and Fees</span>
+                    <svg class="w-5 h-5 transition-transform duration-300 faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div class="faq-content hidden pb-5 text-gray-600 leading-relaxed">
+                    Our pricing varies based on the service required. Contact us for detailed pricing information. We offer competitive rates and transparent pricing with no hidden fees. Payment plans are available for certain services.
+                </div>
+            </div>
+
+            <div class="border-b border-gray-200">
+                <button class="faq-button w-full flex items-center justify-between py-5 text-left hover:text-orange-500 transition-colors group">
+                    <span class="text-lg font-medium">Passport Renewal Process</span>
+                    <svg class="w-5 h-5 transition-transform duration-300 faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div class="faq-content hidden pb-5 text-gray-600 leading-relaxed">
+                    Submit your current passport copy, passport-size photos, and required documents. Processing time is typically 4-6 weeks. We handle all communications with the embassy and keep you updated throughout the process.
+                </div>
+            </div>
+
+            <div class="border-b border-gray-200">
+                <button class="faq-button w-full flex items-center justify-between py-5 text-left hover:text-orange-500 transition-colors group">
+                    <span class="text-lg font-medium">When will I get my order?</span>
+                    <svg class="w-5 h-5 transition-transform duration-300 faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+                <div class="faq-content hidden pb-5 text-gray-600 leading-relaxed">
+                    Standard document processing takes 3-5 business days. Passport renewals take 4-6 weeks. Express services are available for urgent requests with additional fees. We provide tracking information for all orders.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Community Section -->
+    <div class="max-w-4xl mx-auto px-8 py-16">
+        <h2 class="text-3xl font-bold mb-6 text-gray-900">Join our community</h2>
+        <a href="https://facebook.com" target="_blank" class="inline-flex items-center justify-center w-10 h-10 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all transform hover:scale-110">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+            </svg>
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-gray-200 py-8 mt-16">
+        <div class="max-w-6xl mx-auto px-8 flex flex-col md:flex-row items-center justify-between text-sm text-gray-600 gap-4">
+            <div>© 2025 burmese.ae</div>
+            <div class="flex items-center space-x-6">
+                <div class="flex items-center space-x-3">
+                    <span class="text-xs font-medium">🇦🇪 AE</span>
+                    <span class="text-xs font-medium">EN</span>
+                </div>
+                <a href="#" class="hover:text-gray-900 transition">Terms and Policies</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Toggle Functionality
+        document.querySelectorAll('.faq-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const icon = button.querySelector('.faq-icon');
+                
+                // Close all other FAQs
+                document.querySelectorAll('.faq-content').forEach(item => {
+                    if (item !== content) {
+                        item.classList.add('hidden');
+                        item.classList.remove('animate-fadeIn');
+                    }
+                });
+                document.querySelectorAll('.faq-icon').forEach(item => {
+                    if (item !== icon) {
+                        item.classList.remove('rotate-180');
+                    }
+                });
+                
+                // Toggle current FAQ
+                content.classList.toggle('hidden');
+                content.classList.toggle('animate-fadeIn');
+                icon.classList.toggle('rotate-180');
+            });
+        });
+
+        // Form Submission
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitButton = e.target.querySelector('button[type="submit"]');
+            const submitText = document.getElementById('submitText');
+            const formMessage = document.getElementById('formMessage');
+            
+            // Disable button and show loading state
+            submitButton.disabled = true;
+            submitText.textContent = 'Submitting...';
+            formMessage.classList.add('hidden');
+            
+            // Get form data
+            const formData = {
+                name: e.target.name.value,
+                email: e.target.email.value,
+                phone: e.target.phone.value,
+                message: e.target.message.value,
+                timestamp: new Date().toISOString()
+            };
+            
+            try {
+                // Replace with your Cloudflare Worker URL
+                const response = await fetch('YOUR_CLOUDFLARE_WORKER_URL', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                if (response.ok) {
+                    // Success
+                    formMessage.textContent = '✓ Form submitted successfully! We will contact you soon.';
+                    formMessage.className = 'text-center text-sm font-medium text-green-600';
+                    formMessage.classList.remove('hidden');
+                    e.target.reset();
+                } else {
+                    throw new Error('Submission failed');
+                }
+            } catch (error) {
+                // Error
+                formMessage.textContent = '✗ Submission failed. Please try again or contact us directly.';
+                formMessage.className = 'text-center text-sm font-medium text-red-600';
+                formMessage.classList.remove('hidden');
+                console.error('Form submission error:', error);
+            } finally {
+                // Re-enable button
+                submitButton.disabled = false;
+                submitText.textContent = 'Submit';
+            }
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
