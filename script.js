@@ -1,5 +1,4 @@
-
-        // FAQ Toggle Functionality
+// FAQ Toggle Functionality
         document.querySelectorAll('.faq-button').forEach(button => {
             button.addEventListener('click', () => {
                 const content = button.nextElementSibling;
