@@ -242,7 +242,6 @@ window.addEventListener("scroll", () => {
       chevron.classList.remove("rotate-90");
     } else {
       // Expand
-      shortBlock.classList.add("hidden");
       fullBlock.classList.remove("hidden");
       btn.setAttribute("aria-expanded", "true");
       btn.firstChild.textContent = "Read less";
