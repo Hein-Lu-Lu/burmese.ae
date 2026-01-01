@@ -90,18 +90,32 @@
         });
 
 
-  const header = document.getElementById("site-header");
+const header = document.getElementById("site-header");
+const navLinks = document.getElementById("nav-links");
+const searchIcon = document.getElementById("search-icon");
 
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 50) {
-      header.classList.remove("bg-transparent");
-      header.classList.add("bg-white/30", "backdrop-blur-lg");
-      header.classList.remove("text-white");
-      header.classList.add("text-gray-900");
-    } else {
-    header.classList.add("text-white");
-    header.classList.remove("text-gray-900");
-    header.classList.remove("bg-white/30", "backdrop-blur-lg");
-    header.classList.add("bg-transparent");
-    }
-  });        
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 50) {
+    // Header position
+    header.classList.remove("top-[25px]", "bg-transparent");
+    header.classList.add("top-0", "bg-white", "shadow-md");
+
+    // Text color
+    navLinks.classList.remove("text-white");
+    navLinks.classList.add("text-gray-900");
+
+    searchIcon.classList.remove("text-white");
+    searchIcon.classList.add("text-gray-900");
+
+  } else {
+    // Reset to initial state
+    header.classList.remove("top-0", "bg-white", "shadow-md");
+    header.classList.add("top-[25px]", "bg-transparent");
+
+    navLinks.classList.remove("text-gray-900");
+    navLinks.classList.add("text-white");
+
+    searchIcon.classList.remove("text-gray-900");
+    searchIcon.classList.add("text-white");
+  }
+});
