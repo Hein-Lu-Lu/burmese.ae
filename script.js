@@ -224,3 +224,28 @@ window.addEventListener("scroll", () => {
   window.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal();
   });
+
+  const btn = document.getElementById("aboutToggle");
+  const shortBlock = document.getElementById("aboutShort");
+  const fullBlock = document.getElementById("aboutFull");
+  const chevron = document.getElementById("aboutChevron");
+
+  btn.addEventListener("click", () => {
+    const isOpen = btn.getAttribute("aria-expanded") === "true";
+
+    if (isOpen) {
+      // Collapse
+      fullBlock.classList.add("hidden");
+      shortBlock.classList.remove("hidden");
+      btn.setAttribute("aria-expanded", "false");
+      btn.firstChild.textContent = "Read more";
+      chevron.classList.remove("rotate-90");
+    } else {
+      // Expand
+      shortBlock.classList.add("hidden");
+      fullBlock.classList.remove("hidden");
+      btn.setAttribute("aria-expanded", "true");
+      btn.firstChild.textContent = "Read less";
+      chevron.classList.add("rotate-90");
+    }
+  });
