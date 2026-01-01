@@ -95,9 +95,9 @@
   window.addEventListener("scroll", () => {
     if (window.scrollY > 50) {
       header.classList.remove("bg-transparent");
-      header.classList.add("bg-white", "shadow-md");
+      header.classList.add("bg-white/30", "backdrop-blur-lg");
     } else {
-      header.classList.remove("bg-white", "shadow-md");
+      header.classList.remove("bg-white/30", "backdrop-blur-lg");
       header.classList.add("bg-transparent");
     }
   });        
