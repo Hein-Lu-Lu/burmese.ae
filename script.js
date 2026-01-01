@@ -1,4 +1,3 @@
-// FAQ Toggle Functionality
         document.querySelectorAll('.faq-button').forEach(button => {
             button.addEventListener('click', () => {
                 const content = button.nextElementSibling;
@@ -88,7 +87,7 @@
                 }
             });
         });
-        
+
   const header = document.getElementById("site-header");
 
   window.addEventListener("scroll", () => {
