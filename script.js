@@ -131,3 +131,96 @@ window.addEventListener("scroll", () => {
     searchIcon.classList.add("text-white");
   }
 });
+
+  // --- Carousel controls (desktop) ---
+  const scroller = document.querySelector("#servicesCarousel .overflow-x-auto");
+  const prevBtn = document.getElementById("svcPrev");
+  const nextBtn = document.getElementById("svcNext");
+
+  function scrollByCard(direction = 1) {
+    if (!scroller) return;
+    const firstCard = scroller.querySelector(".service-card");
+    const gap = 16; // gap-4 => 16px
+    const cardWidth = firstCard ? firstCard.getBoundingClientRect().width : 320;
+    scroller.scrollBy({ left: direction * (cardWidth + gap), behavior: "smooth" });
+  }
+
+  if (prevBtn) prevBtn.addEventListener("click", () => scrollByCard(-1));
+  if (nextBtn) nextBtn.addEventListener("click", () => scrollByCard(1));
+
+  // --- Modal logic ---
+  const modal = document.getElementById("serviceModal");
+  const backdrop = document.getElementById("modalBackdrop");
+  const panel = document.getElementById("modalPanel");
+  const closeBtn = document.getElementById("modalClose");
+  const closeBtn2 = document.getElementById("modalSecondaryClose");
+
+  const modalTitle = document.getElementById("modalTitle");
+  const modalText = document.getElementById("modalText");
+  const modalImg = document.getElementById("modalImg");
+
+  let lastFocusedEl = null;
+
+  function openModal({ title, text, img }) {
+    lastFocusedEl = document.activeElement;
+
+    modalTitle.textContent = title || "Service";
+    modalText.textContent = text || "";
+    modalImg.src = img || "";
+    modalImg.alt = title || "Service image";
+
+    modal.classList.remove("hidden");
+    modal.setAttribute("aria-hidden", "false");
+
+    // Trigger transitions (next frame)
+    requestAnimationFrame(() => {
+      backdrop.classList.remove("opacity-0");
+      backdrop.classList.add("opacity-100");
+
+      panel.classList.remove("opacity-0", "translate-y-6", "sm:scale-95");
+      panel.classList.add("opacity-100", "translate-y-0", "sm:scale-100");
+    });
+
+    // Focus close for accessibility
+    setTimeout(() => closeBtn.focus(), 50);
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal() {
+    // Reverse transitions
+    backdrop.classList.remove("opacity-100");
+    backdrop.classList.add("opacity-0");
+
+    panel.classList.remove("opacity-100", "translate-y-0", "sm:scale-100");
+    panel.classList.add("opacity-0", "translate-y-6", "sm:scale-95");
+
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+
+    // After animation, hide
+    setTimeout(() => {
+      modal.classList.add("hidden");
+      if (lastFocusedEl) lastFocusedEl.focus();
+    }, 300);
+  }
+
+  // Open modal on card click
+  document.querySelectorAll(".service-card").forEach((card) => {
+    card.addEventListener("click", () => {
+      openModal({
+        title: card.dataset.title,
+        text: card.dataset.text,
+        img: card.dataset.img
+      });
+    });
+  });
+
+  // Close handlers
+  closeBtn.addEventListener("click", closeModal);
+  closeBtn2.addEventListener("click", closeModal);
+  backdrop.addEventListener("click", closeModal);
+
+  // ESC to close
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal();
+  });

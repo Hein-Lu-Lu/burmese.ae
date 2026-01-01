@@ -110,7 +110,259 @@
             </div>
         </div>
     </div>
+    <!-- SERVICES SECTION (Tailwind + vanilla JS, mobile snap carousel + modal popup) -->
+<section id="services" class="relative py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Heading -->
+    <div class="flex items-end justify-between gap-4">
+      <div>
+        <p class="text-sm font-medium text-gray-500">What we do</p>
+        <h2 class="mt-2 text-2xl sm:text-3xl font-semibold text-gray-900">Our Services</h2>
+      </div>
 
+      <!-- Desktop controls -->
+      <div class="hidden md:flex items-center gap-2">
+        <button
+          type="button"
+          id="svcPrev"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white shadow-sm hover:bg-gray-50 active:scale-[0.98] transition"
+          aria-label="Previous"
+        >
+          <svg class="h-5 w-5 text-gray-800" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+
+        <button
+          type="button"
+          id="svcNext"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white shadow-sm hover:bg-gray-50 active:scale-[0.98] transition"
+          aria-label="Next"
+        >
+          <svg class="h-5 w-5 text-gray-800" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Carousel -->
+    <!-- Key mobile behavior:
+         - overflow-x-auto + scroll-smooth + snap-x snap-mandatory
+         - pr-10 on the scroller so the next card "peeks" a bit
+         - snap-center so cards land nicely
+    -->
+    <div class="mt-8">
+      <div
+        id="servicesCarousel"
+        class="group relative -mx-4 px-4 md:mx-0 md:px-0"
+      >
+        <div
+          class="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2
+                 pr-10 sm:pr-14 md:pr-0
+                 [scrollbar-width:none] [-ms-overflow-style:none]
+                 [&::-webkit-scrollbar]:hidden"
+        >
+          <!-- CARD 1 -->
+          <button
+            type="button"
+            class="service-card snap-center shrink-0 text-left
+                   w-[78%] sm:w-[55%] md:w-[32%] lg:w-[28%]
+                   rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow"
+            data-title="Web Design"
+            data-text="Modern, fast, and responsive websites tailored to your brand. Includes UI/UX, SEO-ready structure, and clean layouts."
+            data-img="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=1600&q=80"
+          >
+            <div class="p-4">
+              <div class="overflow-hidden rounded-2xl">
+                <img
+                  class="h-44 w-full object-cover sm:h-48 md:h-44 lg:h-48"
+                  src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=1600&q=80"
+                  alt="Web Design"
+                  loading="lazy"
+                />
+              </div>
+
+              <div class="mt-4 flex items-center justify-between gap-3">
+                <h3 class="text-base font-semibold text-gray-900">Web Design</h3>
+                <span class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white">
+                  <svg class="h-5 w-5 text-gray-900" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </button>
+
+          <!-- CARD 2 -->
+          <button
+            type="button"
+            class="service-card snap-center shrink-0 text-left
+                   w-[78%] sm:w-[55%] md:w-[32%] lg:w-[28%]
+                   rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow"
+            data-title="Ecommerce Setup"
+            data-text="Shopify/WooCommerce setup, product structure, payments, shipping rules, and conversion-focused product pages."
+            data-img="https://images.unsplash.com/photo-1557825835-70d97c4aa567?auto=format&fit=crop&w=1600&q=80"
+          >
+            <div class="p-4">
+              <div class="overflow-hidden rounded-2xl">
+                <img
+                  class="h-44 w-full object-cover sm:h-48 md:h-44 lg:h-48"
+                  src="https://images.unsplash.com/photo-1557825835-70d97c4aa567?auto=format&fit=crop&w=1600&q=80"
+                  alt="Ecommerce Setup"
+                  loading="lazy"
+                />
+              </div>
+
+              <div class="mt-4 flex items-center justify-between gap-3">
+                <h3 class="text-base font-semibold text-gray-900">Ecommerce Setup</h3>
+                <span class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white">
+                  <svg class="h-5 w-5 text-gray-900" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </button>
+
+          <!-- CARD 3 -->
+          <button
+            type="button"
+            class="service-card snap-center shrink-0 text-left
+                   w-[78%] sm:w-[55%] md:w-[32%] lg:w-[28%]
+                   rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow"
+            data-title="Branding"
+            data-text="Logo, typography, brand colors, and visual system that stays consistent across web, social, and print."
+            data-img="https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1600&q=80"
+          >
+            <div class="p-4">
+              <div class="overflow-hidden rounded-2xl">
+                <img
+                  class="h-44 w-full object-cover sm:h-48 md:h-44 lg:h-48"
+                  src="https://images.unsplash.com/photo-1526498460520-4c246339dccb?auto=format&fit=crop&w=1600&q=80"
+                  alt="Branding"
+                  loading="lazy"
+                />
+              </div>
+
+              <div class="mt-4 flex items-center justify-between gap-3">
+                <h3 class="text-base font-semibold text-gray-900">Branding</h3>
+                <span class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white">
+                  <svg class="h-5 w-5 text-gray-900" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </button>
+
+          <!-- CARD 4 -->
+          <button
+            type="button"
+            class="service-card snap-center shrink-0 text-left
+                   w-[78%] sm:w-[55%] md:w-[32%] lg:w-[28%]
+                   rounded-2xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition-shadow"
+            data-title="Digital Marketing"
+            data-text="Search and social campaigns, content strategy, tracking setup, and monthly optimization to grow leads."
+            data-img="https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1600&q=80"
+          >
+            <div class="p-4">
+              <div class="overflow-hidden rounded-2xl">
+                <img
+                  class="h-44 w-full object-cover sm:h-48 md:h-44 lg:h-48"
+                  src="https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=1600&q=80"
+                  alt="Digital Marketing"
+                  loading="lazy"
+                />
+              </div>
+
+              <div class="mt-4 flex items-center justify-between gap-3">
+                <h3 class="text-base font-semibold text-gray-900">Digital Marketing</h3>
+                <span class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 bg-white">
+                  <svg class="h-5 w-5 text-gray-900" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile hint text -->
+      <p class="mt-4 text-sm text-gray-500 md:hidden">
+        Swipe to explore. Tap a service to learn more.
+      </p>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div
+    id="serviceModal"
+    class="fixed inset-0 z-[60] hidden"
+    aria-hidden="true"
+  >
+    <!-- Backdrop -->
+    <div
+      id="modalBackdrop"
+      class="absolute inset-0 bg-black/40 opacity-0 transition-opacity duration-300"
+    ></div>
+
+    <!-- Panel wrapper -->
+    <div class="relative h-full w-full flex items-end sm:items-center justify-center p-4">
+      <div
+        id="modalPanel"
+        class="w-full sm:max-w-lg rounded-2xl bg-white shadow-xl
+               transform translate-y-6 sm:translate-y-0 sm:scale-95 opacity-0
+               transition duration-300"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle"
+      >
+        <div class="p-5 sm:p-6">
+          <div class="flex items-start justify-between gap-4">
+            <h3 id="modalTitle" class="text-lg font-semibold text-gray-900">Service</h3>
+
+            <button
+              type="button"
+              id="modalClose"
+              class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 hover:bg-gray-50 transition"
+              aria-label="Close"
+            >
+              <svg class="h-5 w-5 text-gray-900" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="mt-4 overflow-hidden rounded-2xl">
+            <img id="modalImg" class="h-52 w-full object-cover" src="" alt="" />
+          </div>
+
+          <p id="modalText" class="mt-4 text-sm leading-6 text-gray-600">
+            ...
+          </p>
+
+          <div class="mt-6 flex gap-3">
+            <a
+              href="#contact"
+              class="inline-flex items-center justify-center rounded-xl bg-gray-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-black transition"
+            >
+              Contact us
+            </a>
+            <button
+              type="button"
+              id="modalSecondaryClose"
+              class="inline-flex items-center justify-center rounded-xl border border-gray-200 px-4 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-50 transition"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
     <!-- FAQ Section -->
     <div class="max-w-4xl mx-auto px-8 py-16" id="faq">
         <h2 class="text-4xl font-bold mb-12 text-gray-900">FAQ</h2>
