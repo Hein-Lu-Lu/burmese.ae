@@ -98,7 +98,7 @@ window.addEventListener("scroll", () => {
   if (window.scrollY > 50) {
     // Header position
     header.classList.remove("top-[25px]", "bg-transparent");
-    header.classList.add("top-0", "bg-white", "shadow-md");
+    header.classList.add("top-0", "bg-white/30", "backdrop-blur-lg");
 
     // Text color
     navLinks.classList.remove("text-white");
@@ -109,7 +109,7 @@ window.addEventListener("scroll", () => {
 
   } else {
     // Reset to initial state
-    header.classList.remove("top-0", "bg-white", "shadow-md");
+    header.classList.remove("top-0", "bg-white/30", "backdrop-blur-lg");
     header.classList.add("top-[25px]", "bg-transparent");
 
     navLinks.classList.remove("text-gray-900");
