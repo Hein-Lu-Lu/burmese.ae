@@ -9,3 +9,9 @@
         .hero-bg {
             background: linear-gradient(to bottom, #fb923c, #fdba74, #fde047);
         }
+        @supports (-webkit-touch-callout: none) {
+  input[type="date"] {
+    min-height: 3rem; /* same as h-12 */
+    line-height: normal;
+  }
+}
