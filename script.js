@@ -334,41 +334,41 @@ window.addEventListener("scroll", () => {
   }
 
   /* ================= CORE LOGIC ================= */
-  function taxCompute(salaryValue, entryDate) {
+    function taxCompute(salaryValue, entryDate) {
     const salary = Number(salaryValue);
 
-    if (!salary || salary <= 0)
+    if (!salary || salary <= 0) {
       return { ok: false, error: "Please enter a valid basic salary." };
+    }
 
-    if (!entryDate)
+    if (!entryDate) {
       return { ok: false, error: "Please select an entry date." };
+    }
 
-    /* ---- START DATE ---- */
-    let taxStart =
-      entryDate < taxCHARGE_START ? taxCHARGE_START : entryDate;
+    /* ---- START DATE: no earlier than Oct 2023 ---- */
+    let taxStart = entryDate < taxCHARGE_START ? taxCHARGE_START : entryDate;
     taxStart = taxStartOfMonth(taxStart);
 
-    /* ---- END DATE (SEPTEMBER RULE) ---- */
-    const entryYear = entryDate.getFullYear();
-    const entryMonth = entryDate.getMonth() + 1;
+    /* ---- END DATE: based on CURRENT date (today) ---- */
+    const taxToday = new Date();
+    const taxCurrentYear = taxToday.getFullYear();
+    const taxCurrentMonth = taxToday.getMonth() + 1; // 1..12
 
-    let taxEndYear;
-
-    if (entryDate < taxCHARGE_START) {
-      taxEndYear = 2024;
-    } else {
-      taxEndYear = entryMonth <= 9 ? entryYear : entryYear + 1;
-    }
+    // If current month is after Sep, charge through NEXT year's Sep
+    const taxEndYear = taxCurrentMonth <= 9 ? taxCurrentYear : taxCurrentYear + 1;
 
     const taxEndMonthStart = new Date(taxEndYear, 8, 1); // Sep 1
 
+    // If the start is after end, nothing to charge
     if (taxStart > taxEndMonthStart) {
       return {
         ok: true,
+        start: taxStart,
+        end: taxEndMonthStart,
         months: 0,
         monthly: salary * taxRATE,
         total: 0,
-        note: "Entry date is after the charging period.",
+        note: "Entry date is after the charging period end (September).",
       };
     }
 
@@ -385,6 +385,7 @@ window.addEventListener("scroll", () => {
       total: taxTotal,
     };
   }
+
 
   /* ================= RENDER ================= */
   function taxRender() {
