@@ -250,188 +250,191 @@ window.addEventListener("scroll", () => {
     }
   });
 
-    // ===== Tax Calculator Rules =====
-  // - Monthly charge = 2% of basic salary
-  // - Charging starts no earlier than Oct 2023
-  // - If entry date < Oct 2023: charge Oct 2023 -> Sep 2024
-  // - Else:
-  //   - If entry month <= Sep: charge from entry month -> Sep of same year
-  //   - If entry month > Sep: charge from entry month -> Sep of next year
-  // - Months counted inclusive
+  
+    /* ================= TAX CONFIG ================= */
+  const taxCHARGE_START = new Date(2023, 9, 1); // Oct 1, 2023
+  const taxRATE = 0.02;
+  const taxCURRENCY = "AED";
 
-  const CHARGE_START = new Date(2023, 9, 1); // Oct 1, 2023
+  /* ================= DOM ELEMENTS ================= */
+  const taxOpenBtn = document.getElementById("openTaxCalc");
+  const taxModal = document.getElementById("taxModal");
+  const taxBackdrop = document.getElementById("taxBackdrop");
+  const taxCloseIcon = document.getElementById("closeTaxCalc");
+  const taxCloseBtn = document.getElementById("modalCloseBtn");
 
-  const openBtn = document.getElementById("openTaxCalc");
-  const modal = document.getElementById("taxModal");
-  const backdrop = document.getElementById("taxBackdrop");
-  const closeX = document.getElementById("closeTaxCalc");
-  const closeBtn = document.getElementById("modalCloseBtn");
+  const taxSalaryEl = document.getElementById("basicSalary");
+  const taxEntryDateEl = document.getElementById("entryDate");
+  const taxResultBox = document.getElementById("resultBox");
+  const taxResetBtn = document.getElementById("resetBtn");
 
-  const salaryEl = document.getElementById("basicSalary");
-  const entryEl = document.getElementById("entryDate");
-  const resultBox = document.getElementById("resultBox");
-  const resetBtn = document.getElementById("resetBtn");
-
-  function showModal() {
-    modal.classList.remove("hidden");
-    modal.classList.add("flex");
+  /* ================= MODAL CONTROLS ================= */
+  function taxShowModal() {
+    taxModal.classList.remove("hidden");
+    taxModal.classList.add("flex");
     document.body.style.overflow = "hidden";
-    render(); // initial render
+    taxRender();
   }
 
-  function hideModal() {
-    modal.classList.add("hidden");
-    modal.classList.remove("flex");
+  function taxHideModal() {
+    taxModal.classList.add("hidden");
+    taxModal.classList.remove("flex");
     document.body.style.overflow = "";
   }
 
-  openBtn.addEventListener("click", showModal);
-  backdrop.addEventListener("click", hideModal);
-  closeX.addEventListener("click", hideModal);
-  closeBtn.addEventListener("click", hideModal);
+  taxOpenBtn.addEventListener("click", taxShowModal);
+  taxBackdrop.addEventListener("click", taxHideModal);
+  taxCloseIcon.addEventListener("click", taxHideModal);
+  taxCloseBtn.addEventListener("click", taxHideModal);
 
-  resetBtn.addEventListener("click", () => {
-    salaryEl.value = "";
-    entryEl.value = "";
-    resultBox.innerHTML = '<p class="text-sm text-slate-600">Enter values to see the estimate.</p>';
+  /* ================= RESET ================= */
+  taxResetBtn.addEventListener("click", () => {
+    taxSalaryEl.value = "";
+    taxEntryDateEl.value = "";
+    taxResultBox.innerHTML =
+      '<p class="text-sm text-slate-600">Enter values to see the estimate.</p>';
   });
 
-  salaryEl.addEventListener("input", render);
-  entryEl.addEventListener("input", render);
+  taxSalaryEl.addEventListener("input", taxRender);
+  taxEntryDateEl.addEventListener("input", taxRender);
 
-  function parseISODate(value) {
+  /* ================= HELPERS ================= */
+  function taxParseDate(value) {
     if (!value) return null;
-    const parts = value.split("-");
-    if (parts.length !== 3) return null;
-    const y = Number(parts[0]);
-    const m = Number(parts[1]);
-    const d = Number(parts[2]);
-    if (!y || !m || !d) return null;
+    const [y, m, d] = value.split("-").map(Number);
     const dt = new Date(y, m - 1, d);
-    if (Number.isNaN(dt.getTime())) return null;
-    return dt;
+    return Number.isNaN(dt.getTime()) ? null : dt;
   }
 
-  function startOfMonth(dt) {
+  function taxStartOfMonth(dt) {
     return new Date(dt.getFullYear(), dt.getMonth(), 1);
   }
 
-  function monthsInclusive(fromMonthStart, toMonthStart) {
-    const y1 = fromMonthStart.getFullYear();
-    const m1 = fromMonthStart.getMonth();
-    const y2 = toMonthStart.getFullYear();
-    const m2 = toMonthStart.getMonth();
-    const diff = (y2 - y1) * 12 + (m2 - m1) + 1;
-    return Math.max(0, diff);
+  function taxMonthsInclusive(start, end) {
+    return (
+      (end.getFullYear() - start.getFullYear()) * 12 +
+      (end.getMonth() - start.getMonth()) +
+      1
+    );
   }
 
-  function fmtMoneyAED(n) {
-    // Keep it simple + consistent. If you prefer Arabic locale formatting, change "en-AE".
+  function taxFmtMoney(amount) {
     return new Intl.NumberFormat("en-AE", {
       style: "currency",
-      currency: "AED",
+      currency: taxCURRENCY,
       maximumFractionDigits: 2,
-    }).format(n);
+    }).format(amount);
   }
 
-  function fmtMonthYear(dt) {
-    return new Intl.DateTimeFormat("en-AE", { month: "short", year: "numeric" }).format(dt);
+  function taxFmtMonthYear(dt) {
+    return new Intl.DateTimeFormat("en-AE", {
+      month: "short",
+      year: "numeric",
+    }).format(dt);
   }
 
-  function computeTax(basicSalary, entryDate) {
-    const salary = Number(basicSalary);
+  /* ================= CORE LOGIC ================= */
+  function taxCompute(salaryValue, entryDate) {
+    const salary = Number(salaryValue);
 
-    if (!Number.isFinite(salary) || salary <= 0) {
+    if (!salary || salary <= 0)
       return { ok: false, error: "Please enter a valid basic salary." };
-    }
-    if (!entryDate) {
+
+    if (!entryDate)
       return { ok: false, error: "Please select an entry date." };
-    }
 
-    // Start: max(entryDate, Oct 2023), month-start
-    let start = entryDate < CHARGE_START ? CHARGE_START : entryDate;
-    start = startOfMonth(start);
+    /* ---- START DATE ---- */
+    let taxStart =
+      entryDate < taxCHARGE_START ? taxCHARGE_START : entryDate;
+    taxStart = taxStartOfMonth(taxStart);
 
-    // End:
-    // - If entry date before Oct 2023 => Sep 2024
-    // - Else => Sep same year if entry month <= Sep, else Sep next year
-    const entryY = entryDate.getFullYear();
-    const entryMonth = entryDate.getMonth() + 1; // 1..12
-    let endYear;
+    /* ---- END DATE (SEPTEMBER RULE) ---- */
+    const entryYear = entryDate.getFullYear();
+    const entryMonth = entryDate.getMonth() + 1;
 
-    if (entryDate < CHARGE_START) {
-      endYear = 2024;
+    let taxEndYear;
+
+    if (entryDate < taxCHARGE_START) {
+      taxEndYear = 2024;
     } else {
-      endYear = entryMonth <= 9 ? entryY : entryY + 1;
+      taxEndYear = entryMonth <= 9 ? entryYear : entryYear + 1;
     }
 
-    const endMonthStart = new Date(endYear, 8, 1); // Sep 1
-    const endDate = new Date(endYear, 8, 30); // Sep 30 (display)
+    const taxEndMonthStart = new Date(taxEndYear, 8, 1); // Sep 1
 
-    // If start after end month => 0 months
-    if (start > endMonthStart) {
+    if (taxStart > taxEndMonthStart) {
       return {
         ok: true,
-        start,
-        endDate,
         months: 0,
-        monthlyCharge: salary * 0.02,
+        monthly: salary * taxRATE,
         total: 0,
-        note: "Entry date is after the charging period end (September).",
+        note: "Entry date is after the charging period.",
       };
     }
 
-    const months = monthsInclusive(start, endMonthStart);
-    const monthlyCharge = salary * 0.02;
-    const total = monthlyCharge * months;
+    const taxMonths = taxMonthsInclusive(taxStart, taxEndMonthStart);
+    const taxMonthly = salary * taxRATE;
+    const taxTotal = taxMonthly * taxMonths;
 
-    return { ok: true, start, endDate, months, monthlyCharge, total };
+    return {
+      ok: true,
+      start: taxStart,
+      end: taxEndMonthStart,
+      months: taxMonths,
+      monthly: taxMonthly,
+      total: taxTotal,
+    };
   }
 
-  function render() {
-    const entryDate = parseISODate(entryEl.value);
-    const res = computeTax(salaryEl.value, entryDate);
+  /* ================= RENDER ================= */
+  function taxRender() {
+    const taxEntryDate = taxParseDate(taxEntryDateEl.value);
+    const result = taxCompute(taxSalaryEl.value, taxEntryDate);
 
-    if (!salaryEl.value && !entryEl.value) {
-      resultBox.innerHTML = '<p class="text-sm text-slate-600">Enter values to see the estimate.</p>';
+    if (!taxSalaryEl.value && !taxEntryDateEl.value) {
+      taxResultBox.innerHTML =
+        '<p class="text-sm text-slate-600">Enter values to see the estimate.</p>';
       return;
     }
 
-    if (!res.ok) {
-      resultBox.innerHTML = `<p class="text-sm text-red-600">${res.error}</p>`;
+    if (!result.ok) {
+      taxResultBox.innerHTML =
+        `<p class="text-sm text-red-600">${result.error}</p>`;
       return;
     }
 
-    resultBox.innerHTML = `
+    taxResultBox.innerHTML = `
       <div class="space-y-2">
-        <div class="flex items-center justify-between text-sm">
+        <div class="flex justify-between text-sm">
           <span class="text-slate-600">Charging period</span>
-          <span class="font-medium text-slate-900">${fmtMonthYear(res.start)} → ${fmtMonthYear(res.endDate)}</span>
+          <span class="font-medium text-slate-900">
+            ${taxFmtMonthYear(result.start)} → ${taxFmtMonthYear(result.end)}
+          </span>
         </div>
 
-        <div class="flex items-center justify-between text-sm">
-          <span class="text-slate-600">Months charged (inclusive)</span>
-          <span class="font-medium text-slate-900">${res.months}</span>
+        <div class="flex justify-between text-sm">
+          <span class="text-slate-600">Months charged</span>
+          <span class="font-medium text-slate-900">${result.months}</span>
         </div>
 
-        <div class="flex items-center justify-between text-sm">
+        <div class="flex justify-between text-sm">
           <span class="text-slate-600">Monthly charge (2%)</span>
-          <span class="font-medium text-slate-900">${fmtMoneyAED(res.monthlyCharge)}</span>
+          <span class="font-medium text-slate-900">${taxFmtMoney(result.monthly)}</span>
         </div>
 
-        <div class="h-px w-full bg-slate-200"></div>
-
-        <div class="flex items-center justify-between">
-          <span class="text-sm font-medium text-slate-700">Estimated total</span>
-          <span class="text-lg font-semibold text-slate-900">${fmtMoneyAED(res.total)}</span>
+        <div class="border-t border-slate-200 pt-2 flex justify-between">
+          <span class="font-medium text-slate-700">Estimated total</span>
+          <span class="text-lg font-semibold text-slate-900">
+            ${taxFmtMoney(result.total)}
+          </span>
         </div>
-
-        ${res.note ? `<p class="text-xs text-slate-500">${res.note}</p>` : ""}
       </div>
     `;
   }
 
-  // ESC to close
+  /* ================= ESC CLOSE ================= */
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !modal.classList.contains("hidden")) hideModal();
+    if (e.key === "Escape" && !taxModal.classList.contains("hidden")) {
+      taxHideModal();
+    }
   });
