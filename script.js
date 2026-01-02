@@ -57,15 +57,10 @@
                     body: JSON.stringify(formData)
                 });
                 
-                if (response.ok) {
-                    // Success
-                    formMessage.textContent = '✓ Form submitted successfully! We will contact you soon.';
-                    formMessage.className = 'text-center text-sm font-medium text-green-600';
-                    formMessage.classList.remove('hidden');
-                    e.target.reset();
-                } else {
-                    throw new Error('Submission failed');
-                }
+                // Success
+                formMessage.textContent = '✓ form ဖြည့်ပြီးပါပြီ၊ကျေးဇူးတင်ပါသည်။ ကျွန်ုပ်တို့ သင့်အား မကြာမီ ဆက်သွယ်ပါမည်။';
+                formMessage.className = 'text-center text-sm font-medium text-green-600';
+                formMessage.classList.remove('hidden');
             } catch (error) {
                 // Error
                 formMessage.textContent = '✗ Submission failed. Please try again or contact us directly.';
