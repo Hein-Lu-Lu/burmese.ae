@@ -48,7 +48,7 @@
             
             try {
                 // Replace with your Cloudflare Worker URL
-                const response = await fetch('https://script.google.com/macros/s/AKfycby5jiqm5wScFtvJT59DEEQnuaruNiXxugjmJiTxGUUP09-IvVLfinsyoxYs4leFKXXXYA/exec', {
+                const response = await fetch('https://script.google.com/macros/s/AKfycbzRdwu2Nx5_cfReaZwwOjokXeZY1Rsk79I5RLsvZR9sSLo23vlyWZLM4Dy02S59Guv29A/exec', {
                     method: 'POST',
                     mode: 'no-cors',
                     headers: {
