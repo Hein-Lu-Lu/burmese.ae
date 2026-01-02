@@ -50,6 +50,7 @@
                 // Replace with your Cloudflare Worker URL
                 const response = await fetch('https://script.google.com/macros/s/AKfycby5jiqm5wScFtvJT59DEEQnuaruNiXxugjmJiTxGUUP09-IvVLfinsyoxYs4leFKXXXYA/exec', {
                     method: 'POST',
+                    mode: 'no-cors',
                     headers: {
                         'Content-Type': 'application/json',
                     },
