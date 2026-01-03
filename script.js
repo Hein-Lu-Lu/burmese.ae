@@ -436,3 +436,48 @@ window.addEventListener("scroll", () => {
       taxHideModal();
     }
   });
+
+  /* ================= WHATSAPP POPUP ================= */
+  const waToggle = document.getElementById("waToggle");
+  const waPopup = document.getElementById("waPopup");
+  const waClose = document.getElementById("waClose");
+  const waForm = document.getElementById("waForm");
+
+  const WA_NUMBER = "971551725009"; // digits only (no +)
+
+  function openWA() {
+    waPopup.classList.remove("hidden");
+  }
+
+  function closeWA() {
+    waPopup.classList.add("hidden");
+  }
+
+  waToggle.addEventListener("click", openWA);
+  waClose.addEventListener("click", closeWA);
+
+  waForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const name = this.name.value.trim();
+    const message = this.message.value.trim();
+
+    const text = `Hello!\nName: ${name}\nMessage: ${message}`;
+    const url = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
+
+    window.open(url, "_blank");
+    this.reset();
+    closeWA();
+  });
+
+  // Close on outside click
+  window.addEventListener("click", (e) => {
+    if (!waPopup.contains(e.target) && !waToggle.contains(e.target)) {
+      closeWA();
+    }
+  });
+
+  // Close on ESC
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeWA();
+  });
