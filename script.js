@@ -163,6 +163,7 @@ window.addEventListener("scroll", () => {
 
     modalTitle.textContent = title || "Service";
     modalText.textContent = text || "";
+    modalText.innerHTML = modalText.textContent.replace(/\n/g, "<br>");
     modalImg.src = img || "";
     modalImg.alt = title || "Service image";
 
