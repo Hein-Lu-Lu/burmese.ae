@@ -43,6 +43,7 @@
                 email: e.target.email.value,
                 phone: e.target.phone.value,
                 message: e.target.message.value,
+                expiration_date: e.target.expiration_date.value,
                 timestamp: new Date().toISOString()
             };
             
