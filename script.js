@@ -24,58 +24,57 @@
             });
         });
 
-      // Form Submission
-document.getElementById('contactForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  const submitButton = e.target.querySelector('button[type="submit"]');
-  const submitText = document.getElementById('submitText');
-  const formMessage = document.getElementById('formMessage');
-
-  // Disable button and show loading state
-  submitButton.disabled = true;
-  submitText.textContent = 'Submitting...';
-  formMessage.classList.add('hidden');
-
-  // Get form data
-  const formData = {
-    name: e.target.name.value,
-    email: e.target.email.value,
-    phone: e.target.phone.value,
-    message: e.target.message.value,
-    expiration_date: e.target.expiration_date.value,
-    timestamp: new Date().toISOString()
-  };
-
-  try {
-    // Remove mode: 'no-cors' to allow proper communication
-    const response = await fetch('https://script.google.com/macros/s/AKfycbzRdwu2Nx5_cfReaZwwOjokXeZY1Rsk79I5RLsvZR9sSLo23vlyWZLM4Dy02S59Guv29A/exec', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams({
-        data: JSON.stringify(formData)
-      })
-    });
-
-    // Success
-    formMessage.textContent = '✓ form ဖြည့်ပြီးပါပြီ၊ကျေးဇူးတင်ပါသည်။ ကျွန်ုပ်တို့ သင့်အား မကြာမီ ဆက်သွယ်ပါမည်။';
-    formMessage.className = 'text-center text-sm font-medium text-green-600';
-    formMessage.classList.remove('hidden');
-    e.target.reset();
-  } catch (error) {
-    // Error
-    formMessage.textContent = '✗ Submission failed. Please try again or contact us directly.';
-    formMessage.className = 'text-center text-sm font-medium text-red-600';
-    formMessage.classList.remove('hidden');
-    console.error('Form submission error:', error);
-  } finally {
-    // Re-enable button
-    submitButton.disabled = false;
-    submitText.textContent = 'Submit';
-  }
-});
+        // Form Submission
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitButton = e.target.querySelector('button[type="submit"]');
+            const submitText = document.getElementById('submitText');
+            const formMessage = document.getElementById('formMessage');
+            
+            // Disable button and show loading state
+            submitButton.disabled = true;
+            submitText.textContent = 'Submitting...';
+            formMessage.classList.add('hidden');
+            
+            // Get form data
+            const formData = {
+                name: e.target.name.value,
+                email: e.target.email.value,
+                phone: e.target.phone.value,
+                message: e.target.message.value,
+                expiration_date: e.target.elements["expiration_date"].value,
+                timestamp: new Date().toISOString()
+            };
+            
+            try {
+                // Replace with your Cloudflare Worker URL
+                const response = await fetch('https://script.google.com/macros/s/AKfycbzRdwu2Nx5_cfReaZwwOjokXeZY1Rsk79I5RLsvZR9sSLo23vlyWZLM4Dy02S59Guv29A/exec', {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                // Success
+                formMessage.textContent = '✓ form ဖြည့်ပြီးပါပြီ၊ကျေးဇူးတင်ပါသည်။ ကျွန်ုပ်တို့ သင့်အား မကြာမီ ဆက်သွယ်ပါမည်။';
+                formMessage.className = 'text-center text-sm font-medium text-green-600';
+                formMessage.classList.remove('hidden');
+                 e.target.reset();
+            } catch (error) {
+                // Error
+                formMessage.textContent = '✗ Submission failed. Please try again or contact us directly.';
+                formMessage.className = 'text-center text-sm font-medium text-red-600';
+                formMessage.classList.remove('hidden');
+                console.error('Form submission error:', error);
+            } finally {
+                // Re-enable button
+                submitButton.disabled = false;
+                submitText.textContent = 'Submit';
+            }
+        });
 
         // Smooth scrolling for navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
