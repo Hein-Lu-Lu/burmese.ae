@@ -46,8 +46,6 @@
                 expiration_date: e.target.elements["expiration_date"].value,
                 timestamp: new Date().toISOString()
             };
-
-            console.log('Form Data:', formData); 
             
             try {
                 // Replace with your Cloudflare Worker URL
