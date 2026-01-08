@@ -445,7 +445,7 @@ window.addEventListener("scroll", () => {
   const waClose = document.getElementById("waClose");
   const waForm = document.getElementById("waForm");
 
-  const WA_NUMBER = "971551725009"; // digits only (no +)
+  const WA_NUMBER = "971545077861"; // digits only (no +)
 
   function openWA() {
     waPopup.classList.remove("hidden");
