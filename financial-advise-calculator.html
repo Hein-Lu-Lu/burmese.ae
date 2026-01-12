@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>UAE Salary Budget & Advice Calculator</title>
+  <style>
+    :root{
+      --bg:#0b1220;
+      --card:#101a2e;
+      --card2:#0f1830;
+      --text:#e8eefc;
+      --muted:#a8b3cf;
+      --accent:#7c5cff;
+      --good:#20c997;
+      --warn:#ffc107;
+      --bad:#ff5c7a;
+      --line:rgba(255,255,255,.08);
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0; font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background: radial-gradient(1200px 600px at 10% 0%, rgba(124,92,255,.20), transparent 50%),
+                  radial-gradient(900px 500px at 90% 10%, rgba(32,201,151,.14), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+    }
+    header{
+      padding:28px 16px 10px;
+      max-width:1100px;
+      margin:0 auto;
+    }
+    h1{margin:0 0 6px; font-size: clamp(20px, 2.6vw, 34px);}
+    p.lead{margin:0; color:var(--muted); line-height:1.5}
+    .wrap{
+      max-width:1100px; margin:0 auto; padding:16px;
+      display:grid; grid-template-columns: 1fr; gap:14px;
+    }
+    @media (min-width: 980px){
+      .wrap{grid-template-columns: 420px 1fr;}
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding:16px 16px 0;
+      display:flex; align-items:flex-start; justify-content:space-between;
+      gap:10px;
+    }
+    .card .hd h2{margin:0; font-size:16px; letter-spacing:.2px;}
+    .card .bd{padding:16px;}
+    .muted{color:var(--muted)}
+    .row{display:grid; gap:10px; margin-bottom:12px;}
+    label{font-size:12px; color:var(--muted); display:block; margin-bottom:6px;}
+    input, select{
+      width:100%;
+      padding:12px 12px;
+      border-radius: 12px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.18);
+      color:var(--text);
+      outline:none;
+    }
+    input:focus, select:focus{border-color: rgba(124,92,255,.6); box-shadow: 0 0 0 3px rgba(124,92,255,.18);}
+    button{
+      width:100%;
+      padding:12px 12px;
+      border-radius: 12px;
+      border:1px solid rgba(124,92,255,.55);
+      background: rgba(124,92,255,.22);
+      color:var(--text);
+      font-weight:600;
+      cursor:pointer;
+      transition:.15s ease;
+    }
+    button:hover{transform: translateY(-1px); background: rgba(124,92,255,.30);}
+    .pill{
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      color:var(--muted);
+      background: rgba(0,0,0,.14);
+      white-space:nowrap;
+    }
+    .grid2{display:grid; gap:12px;}
+    @media(min-width: 720px){ .grid2{grid-template-columns: 1fr 1fr;} }
+
+    .kpi{
+      display:grid; grid-template-columns: 1fr; gap:10px;
+      padding:14px; border-radius: 14px;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.12);
+    }
+    .kpi .top{display:flex; align-items:center; justify-content:space-between; gap:8px;}
+    .kpi .val{font-size:20px; font-weight:800;}
+    .tag{font-size:11px; padding:4px 8px; border-radius:999px; border:1px solid var(--line); background:rgba(255,255,255,.03); color:var(--muted);}
+    .tag.good{border-color: rgba(32,201,151,.35); color: rgba(32,201,151,.95);}
+    .tag.warn{border-color: rgba(255,193,7,.35); color: rgba(255,193,7,.95);}
+    .tag.bad{border-color: rgba(255,92,122,.35); color: rgba(255,92,122,.95);}
+
+    .bar{
+      height:10px; border-radius:999px; background: rgba(255,255,255,.06); overflow:hidden;
+      border:1px solid var(--line);
+    }
+    .bar > i{display:block; height:100%; width:0%; background: rgba(124,92,255,.8); border-radius:999px;}
+    .list{
+      margin:0; padding:0; list-style:none;
+      display:grid; gap:10px;
+    }
+    .item{
+      border:1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(0,0,0,.12);
+      padding:12px;
+    }
+    .item .r1{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+    .item .name{font-weight:700;}
+    .item .amt{font-variant-numeric: tabular-nums; font-weight:800;}
+    .item .r2{display:flex; justify-content:space-between; gap:10px; margin-top:6px; color:var(--muted); font-size:12px;}
+    .note{
+      border-top:1px solid var(--line);
+      padding:12px 16px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.45;
+      background: rgba(0,0,0,.14);
+    }
+    .facts details{
+      border:1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(0,0,0,.12);
+      padding:12px;
+    }
+    summary{cursor:pointer; font-weight:700;}
+    .facts .small{font-size:12px; color:var(--muted); line-height:1.45;}
+    table{width:100%; border-collapse:collapse; margin-top:10px; font-size:12px;}
+    th,td{border-bottom:1px solid var(--line); padding:8px 6px; text-align:left;}
+    th{color:var(--muted); font-weight:700;}
+    .footer{
+      max-width:1100px; margin:0 auto; padding: 6px 16px 22px;
+      color:var(--muted); font-size:12px;
+    }
+    a{color: rgba(124,92,255,.95); text-decoration:none;}
+    a:hover{text-decoration:underline;}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>UAE Salary Budget & Advice Calculator</h1>
+    <p class="lead">
+      Enter your <b>basic salary</b> and <b>emirate</b>. Get a UAE-style budget plan for accommodation, utilities, commute, medical, lifestyle,
+      savings and investing — tuned for lower, middle, and higher incomes.
+    </p>
+  </header>
+
+  <main class="wrap">
+    <!-- INPUTS -->
+    <section class="card">
+      <div class="hd">
+        <h2>Inputs</h2>
+        <span class="pill">2 inputs only</span>
+      </div>
+      <div class="bd">
+        <div class="row">
+          <div>
+            <label for="salary">Basic salary (AED / month)</label>
+            <input id="salary" type="number" inputmode="numeric" placeholder="e.g., 4500" min="0" step="50" />
+          </div>
+          <div>
+            <label for="location">Location (Emirate / City)</label>
+            <select id="location">
+              <option value="Dubai">Dubai</option>
+              <option value="AbuDhabi">Abu Dhabi</option>
+              <option value="Sharjah">Sharjah</option>
+              <option value="Ajman">Ajman</option>
+              <option value="RAK">Ras Al Khaimah</option>
+              <option value="Fujairah">Fujairah</option>
+              <option value="UAQ">Umm Al Quwain</option>
+              <option value="AlAin">Al Ain</option>
+            </select>
+          </div>
+          <button id="calcBtn">Calculate my plan</button>
+        </div>
+
+        <div class="kpi" id="classBox" style="display:none;">
+          <div class="top">
+            <div>
+              <div class="muted" style="font-size:12px;">Income class</div>
+              <div class="val" id="incomeClass">—</div>
+            </div>
+            <span class="tag" id="classTag">—</span>
+          </div>
+          <div class="muted" id="classText" style="font-size:12px; line-height:1.45;"></div>
+        </div>
+      </div>
+      <div class="note">
+        <b>Important:</b> This is educational budgeting guidance, not personal financial advice.
+        Real costs vary by family size, debt, rent contract, employer benefits (housing/transport/insurance), and spending habits.
+      </div>
+    </section>
+
+    <!-- OUTPUT -->
+    <section class="card">
+      <div class="hd">
+        <h2>Your monthly plan</h2>
+        <span class="pill" id="locationPill">—</span>
+      </div>
+      <div class="bd">
+        <div class="grid2" style="margin-bottom:12px;">
+          <div class="kpi" id="kpiTakeHome" style="display:none;">
+            <div class="top">
+              <div>
+                <div class="muted" style="font-size:12px;">Salary used</div>
+                <div class="val" id="salaryUsed">—</div>
+              </div>
+              <span class="tag good">AED</span>
+            </div>
+            <div class="muted" style="font-size:12px;">We treat “basic salary” as your budget base.</div>
+          </div>
+
+          <div class="kpi" id="kpiSavings" style="display:none;">
+            <div class="top">
+              <div>
+                <div class="muted" style="font-size:12px;">Target savings + investing</div>
+                <div class="val" id="saveInvest">—</div>
+              </div>
+              <span class="tag" id="saveTag">—</span>
+            </div>
+            <div class="bar"><i id="saveBar"></i></div>
+            <div class="muted" style="font-size:12px;" id="saveNote">—</div>
+          </div>
+        </div>
+
+        <ul class="list" id="budgetList"></ul>
+      </div>
+
+      <div class="note">
+        Tip: If “Accommodation” is too high, your biggest levers in the UAE are <b>shared housing</b>, <b>living farther from prime areas</b>,
+        and choosing <b>public transport</b> where possible.
+      </div>
+    </section>
+
+    <!-- FACTS -->
+    <section class="card facts" style="grid-column: 1 / -1;">
+      <div class="hd">
+        <h2>UAE facts (quick reference)</h2>
+        <span class="pill">built-in notes</span>
+      </div>
+      <div class="bd">
+        <div class="grid2">
+          <details open>
+            <summary>Dubai RTA nol fares & 30-day travel pass</summary>
+            <div class="small">
+              From RTA’s nol fares page: typical fares (Silver/Gold/Personal/Red Ticket) and “nol Products Prices” (7/30/90/365 days).
+              <br><br>
+              <b>30 Days (Silver):</b> 1 zone <span class="mono">AED 140</span>, 2 zones <span class="mono">AED 230</span>, all zones <span class="mono">AED 350</span>.
+              <br><br>
+              <table>
+                <thead>
+                  <tr><th>Journey</th><th>Silver</th><th>Gold</th><th>Personal</th><th>Red Ticket</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Within 1 zone</td><td>AED 3</td><td>AED 6</td><td>AED 3</td><td>AED 4</td></tr>
+                  <tr><td>2 adjacent zones</td><td>AED 5</td><td>AED 10</td><td>AED 5</td><td>AED 6</td></tr>
+                  <tr><td>More than 2 zones</td><td>AED 7.5</td><td>AED 15</td><td>AED 7.5</td><td>AED 8.5</td></tr>
+                </tbody>
+              </table>
+              <div class="small" style="margin-top:8px;">
+                Note: RTA states registered cards are eligible for 7/30/90/365-day travel passes; anonymous silver/gold only for 7-day pass.
+              </div>
+            </div>
+          </details>
+
+          <details>
+            <summary>Dubai housing reference (high-level)</summary>
+            <div class="small">
+              Dubai average rents vary a lot by area. One published reference (late 2025) lists overall averages (yearly) such as
+              Studio ~AED 40,961 and 1-Bedroom ~AED 61,968 (≈ AED 5,164/month). Use this as a rough benchmark only.
+            </div>
+          </details>
+
+          <details>
+            <summary>Utilities reference (DEWA)</summary>
+            <div class="small">
+              DEWA has an official tariff calculator to estimate electricity & water usage. Utilities can swing heavily with A/C use (summer).
+              In this calculator, we show a conservative utilities allocation and advise users to validate with DEWA’s calculator.
+            </div>
+          </details>
+
+          <details>
+            <summary>Medical / insurance note</summary>
+            <div class="small">
+              In the UAE, many employees have employer-provided insurance; if not, costs vary widely by coverage. This calculator allocates a
+              basic “medical buffer” and suggests building an emergency fund first.
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <div class="note">
+        Want to make this “production ready”? Next steps are: add backend (user profiles), add family size/debt inputs (optional),
+        store assumptions per emirate/area, and let admins update cost tables without editing code.
+      </div>
+    </section>
+  </main>
+
+  <div class="footer">
+    Built as a simple static site (no backend). You can host it on any web server.
+  </div>
+
+  <script>
+    // ---------------------------
+    // UAE Budget Engine (2 inputs)
+    // ---------------------------
+
+    // Location multipliers (rough cost-of-living tuning)
+    const LOCATION = {
+      Dubai:    { name: "Dubai",           idx: 1.15 },
+      AbuDhabi:{ name: "Abu Dhabi",       idx: 1.10 },
+      Sharjah: { name: "Sharjah",         idx: 0.92 },
+      Ajman:   { name: "Ajman",           idx: 0.88 },
+      RAK:     { name: "Ras Al Khaimah",  idx: 0.85 },
+      Fujairah:{ name: "Fujairah",        idx: 0.84 },
+      UAQ:     { name: "Umm Al Quwain",   idx: 0.82 },
+      AlAin:   { name: "Al Ain",          idx: 0.90 },
+    };
+
+    // Income class thresholds (AED/month)
+    function classifyIncome(salary){
+      if (salary <= 0) return { key:"none", label:"—", tag:"warn", msg:"Enter a valid salary to get a plan." };
+      if (salary < 5000)  return { key:"low",    label:"Lower income",  tag:"bad",
+        msg:"Focus on survival basics: keep housing low (shared room), avoid high debt, build an emergency buffer first." };
+      if (salary < 15000) return { key:"mid",    label:"Middle income", tag:"warn",
+        msg:"Balance lifestyle with progress: keep housing reasonable, build emergency fund, then start investing consistently." };
+      return { key:"high", label:"High income",  tag:"good",
+        msg:"You can optimize: stronger investing, higher insurance coverage, and long-term wealth planning (retirement + diversified assets)." };
+    }
+
+    // Budget templates (percentages sum to 100)
+    // We keep "Savings" and "Investing" separate because your brief said both.
+    const BUDGET = {
+      low: [
+        { k:"Accommodation",   p:38, note:"Shared housing recommended. If rent >40% of salary, reduce housing cost first." },
+        { k:"Utilities",       p: 6, note:"Electricity/water/gas; A/C season can spike bills." },
+        { k:"Food & Groceries",p:14, note:"Cook more. Track deliveries; they silently drain budgets." },
+        { k:"Commute",         p: 8, note:"Public transport where possible. If driving, fuel/parking/salik adds up." },
+        { k:"Medical Buffer",  p: 5, note:"If employer insurance exists, this becomes extra savings." },
+        { k:"Telecom/Internet",p: 4, note:"SIM + home internet (or share). Review plans yearly." },
+        { k:"Lifestyle",       p: 5, note:"Cap discretionary spends; avoid “small daily” leaks." },
+        { k:"Family/Other",    p: 3, note:"Remittances, essentials, subscriptions." },
+        { k:"Emergency Fund",  p:12, note:"Goal: 1–3 months expenses first." },
+        { k:"Investing",       p: 5, note:"Only after minimum buffer; start simple & low-fee." },
+      ],
+      mid: [
+        { k:"Accommodation",   p:32, note:"Aim 25–35%. If above, consider area/size trade-offs." },
+        { k:"Utilities",       p: 6, note:"Include electricity/water + cooling spikes." },
+        { k:"Food & Groceries",p:12, note:"Mix of cooking + occasional dining." },
+        { k:"Commute",         p: 8, note:"Public transport or controlled car costs." },
+        { k:"Medical Buffer",  p: 5, note:"Top-up, dental, meds, co-pay, clinic visits." },
+        { k:"Telecom/Internet",p: 4, note:"SIM + home internet." },
+        { k:"Lifestyle",       p: 9, note:"Entertainment, shopping, travel fund." },
+        { k:"Family/Other",    p: 4, note:"Gifts, subscriptions, remittance." },
+        { k:"Emergency Fund",  p:10, note:"Goal: 3–6 months expenses." },
+        { k:"Investing",       p:10, note:"Diversify; increase monthly automation." },
+      ],
+      high: [
+        { k:"Accommodation",   p:25, note:"Try to keep lifestyle inflation controlled." },
+        { k:"Utilities",       p: 5, note:"Bigger homes cost more; manage A/C usage." },
+        { k:"Food & Groceries",p:10, note:"Dining is fine—just plan it." },
+        { k:"Commute",         p: 7, note:"If you drive, include salik/parking/maintenance." },
+        { k:"Medical Buffer",  p: 6, note:"Better coverage + family planning." },
+        { k:"Telecom/Internet",p: 3, note:"Premium plans still should be kept sensible." },
+        { k:"Lifestyle",       p:12, note:"Travel, experiences, upgrades—keep intentional." },
+        { k:"Family/Other",    p: 5, note:"Education, childcare, remittances, etc." },
+        { k:"Emergency Fund",  p: 7, note:"Keep 6–12 months of core expenses eventually." },
+        { k:"Investing",       p:20, note:"Retirement + diversified investments + long-term goals." },
+      ],
+    };
+
+    // Simple rent reference hints by location (NOT inputs; just informational ranges)
+    function rentHints(locationKey){
+      // Using Dubai overall average 1BR ~ 61,968/year ≈ 5,164/month as a rough reference.
+      // We'll scale by location index and provide typical "shared/studio/1BR" bands.
+      const idx = LOCATION[locationKey]?.idx ?? 1.0;
+
+      // Base bands for Dubai-ish market (AED/month), then scaled.
+      const shared = [1200, 2500];
+      const studio = [2500, 4500];
+      const onebr  = [4200, 6500];
+
+      const scale = (arr) => arr.map(v => Math.round(v * idx));
+      return {
+        shared: scale(shared),
+        studio: scale(studio),
+        onebr:  scale(onebr),
+      };
+    }
+
+    // Commute hints: if Dubai, include RTA 30-day pass reference
+    function commuteHint(locationKey){
+      if(locationKey === "Dubai"){
+        return "Dubai RTA 30-day travel pass (Silver): 1 zone AED 140, 2 zones AED 230, all zones AED 350 (registered cards).";
+      }
+      return "Commute varies by city and whether you use public transport or drive (fuel/parking/tolls).";
+    }
+
+    // Savings+Invest rating
+    function savingsRating(percent){
+      if(percent >= 25) return { tag:"good", text:"Strong" };
+      if(percent >= 15) return { tag:"warn", text:"Okay" };
+      return { tag:"bad", text:"Low" };
+    }
+
+    // Currency formatter
+    const aed = (n) => "AED " + (Math.round(n)).toLocaleString("en-US");
+
+    // Render
+    const salaryEl = document.getElementById("salary");
+    const locEl = document.getElementById("location");
+    const btn = document.getElementById("calcBtn");
+
+    const classBox = document.getElementById("classBox");
+    const incomeClassEl = document.getElementById("incomeClass");
+    const classTag = document.getElementById("classTag");
+    const classText = document.getElementById("classText");
+
+    const locationPill = document.getElementById("locationPill");
+    const budgetList = document.getElementById("budgetList");
+
+    const kpiTakeHome = document.getElementById("kpiTakeHome");
+    const salaryUsed = document.getElementById("salaryUsed");
+
+    const kpiSavings = document.getElementById("kpiSavings");
+    const saveInvest = document.getElementById("saveInvest");
+    const saveTag = document.getElementById("saveTag");
+    const saveBar = document.getElementById("saveBar");
+    const saveNote = document.getElementById("saveNote");
+
+    function build(){
+      const salary = Number(salaryEl.value || 0);
+      const locationKey = locEl.value;
+      const loc = LOCATION[locationKey] || LOCATION.Dubai;
+      locationPill.textContent = loc.name;
+
+      const cls = classifyIncome(salary);
+
+      classBox.style.display = "grid";
+      incomeClassEl.textContent = cls.label;
+      classTag.textContent = cls.key === "none" ? "—" : cls.tag.toUpperCase();
+      classTag.className = "tag " + (cls.tag || "");
+      classText.textContent = cls.msg;
+
+      if(cls.key === "none"){
+        budgetList.innerHTML = "";
+        kpiTakeHome.style.display = "none";
+        kpiSavings.style.display = "none";
+        return;
+      }
+
+      const tpl = BUDGET[cls.key];
+
+      // Apply a small location tuning:
+      // - Higher-cost areas push housing+utilities up slightly, pulling down lifestyle a bit.
+      // - Lower-cost areas do the opposite.
+      // We keep it subtle so totals remain 100.
+      const tune = Math.max(-0.04, Math.min(0.04, (loc.idx - 1.0) * 0.08)); // around +/- 4%
+      // We'll adjust Housing and Utilities by +tune, take it from Lifestyle and Food.
+      // Convert to percentage points:
+      const delta = Math.round(tune * 100); // -4..+4
+
+      // Clone template and tune
+      const plan = tpl.map(x => ({...x}));
+      const findK = (k) => plan.find(i => i.k === k);
+
+      const housing = findK("Accommodation");
+      const utilities = findK("Utilities");
+      const lifestyle = findK("Lifestyle");
+      const food = findK("Food & Groceries");
+
+      if(housing && utilities && lifestyle && food){
+        housing.p += delta;
+        utilities.p += Math.round(delta/2);
+        lifestyle.p -= Math.round(delta/2);
+        food.p -= delta;
+      }
+
+      // Ensure sum=100 by small correction on "Family/Other"
+      const sum = plan.reduce((a,b)=>a+b.p,0);
+      const diff = 100 - sum;
+      const other = findK("Family/Other") || plan[plan.length-1];
+      other.p += diff;
+
+      // KPIs
+      kpiTakeHome.style.display = "grid";
+      salaryUsed.textContent = aed(salary);
+
+      const savePct = (findK("Emergency Fund")?.p || 0) + (findK("Investing")?.p || 0);
+      const saveAmt = (salary * savePct) / 100;
+
+      kpiSavings.style.display = "grid";
+      saveInvest.textContent = aed(saveAmt) + " (" + savePct + "%)";
+      const rate = savingsRating(savePct);
+      saveTag.textContent = rate.text;
+      saveTag.className = "tag " + rate.tag;
+      saveBar.style.width = Math.min(100, Math.round(savePct * 2.2)) + "%";
+      saveNote.textContent = cls.key === "low"
+        ? "Priority: stabilize essentials + emergency fund first; invest small and simple."
+        : (cls.key === "mid"
+          ? "Good target: build 3–6 months emergency fund, then raise investing steadily."
+          : "Aim for long-term diversification + retirement goals; keep lifestyle inflation controlled.");
+
+      // Render list items
+      const hints = rentHints(locationKey);
+      const commute = commuteHint(locationKey);
+
+      budgetList.innerHTML = "";
+      plan.forEach(item => {
+        const amt = (salary * item.p)/100;
+
+        let sub = item.note;
+        if(item.k === "Accommodation"){
+          sub = `Typical rent bands in ${loc.name} (rough): shared ${aed(hints.shared[0])}–${aed(hints.shared[1])}, studio ${aed(hints.studio[0])}–${aed(hints.studio[1])}, 1BR ${aed(hints.onebr[0])}–${aed(hints.onebr[1])}.`;
+        }
+        if(item.k === "Commute"){
+          sub = commute;
+        }
+        if(item.k === "Utilities"){
+          sub = "Electricity/water (A/C season matters), plus gas if applicable. Use official utility tariff tools to estimate usage.";
+        }
+        if(item.k === "Investing"){
+          sub = (cls.key === "low")
+            ? "Start only after you have a small emergency buffer. Prefer low-fee diversified funds and avoid high-interest debt."
+            : "Prefer diversified, low-fee approach. Increase monthly automation as income grows.";
+        }
+
+        const li = document.createElement("li");
+        li.className = "item";
+        li.innerHTML = `
+          <div class="r1">
+            <div class="name">${item.k}</div>
+            <div class="amt">${aed(amt)}</div>
+          </div>
+          <div class="r2">
+            <div>${item.p}%</div>
+            <div class="muted" style="text-align:right;">${sub}</div>
+          </div>
+        `;
+        budgetList.appendChild(li);
+      });
+    }
+
+    btn.addEventListener("click", build);
+
+    // Sensible defaults for demo
+    salaryEl.value = 4500;
+    locEl.value = "Dubai";
+    build();
+  </script>
+</body>
+</html>
