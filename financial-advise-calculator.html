@@ -6,10 +6,10 @@
   <title>UAE Salary Budget & Advice Calculator</title>
   <style>
     :root{
-      --bg:#0b1220;
+      --bg:#ffffff;
       --card:#101a2e;
       --card2:#0f1830;
-      --text:#e8eefc;
+      --text:#121212;
       --muted:#a8b3cf;
       --accent:#7c5cff;
       --good:#20c997;
@@ -156,8 +156,7 @@
   <header>
     <h1>UAE Salary Budget & Advice Calculator</h1>
     <p class="lead">
-      Enter your <b>basic salary</b> and <b>emirate</b>. Get a UAE-style budget plan for accommodation, utilities, commute, medical, lifestyle,
-      savings and investing — tuned for lower, middle, and higher incomes.
+       <b>basic salary</b> နဲ့ နေထိုင်ရာ <b>emirate</b> ကိုထည့်ပေးပါ. သင့်လစာအပေါ် အခြေခံပြီး အိမ်နဲ့ အသုံးစရိတ် စီမံချက်ကို ပြန်လည်တွက်ချက်ပေးပါမယ်။
     </p>
   </header>
 
@@ -202,8 +201,8 @@
         </div>
       </div>
       <div class="note">
-        <b>Important:</b> This is educational budgeting guidance, not personal financial advice.
-        Real costs vary by family size, debt, rent contract, employer benefits (housing/transport/insurance), and spending habits.
+        <b>Important:</b> ဒီဟာက အခြေခံလမ်းညွှန်ချက်ပဲ ဖြစ်ပါတယ်။ financial advisor မဟုတ်ပါ။
+        တကယ့်စီမံချက်တွေအတွက်တော့ licensed financial advisor နဲ့ ဆွေးနွေးဖို့ အကြံပြုပါတယ်။ idea ရဖို့ကိုပဲ အသုံးပြုပါ။
       </div>
     </section>
 
@@ -218,12 +217,12 @@
           <div class="kpi" id="kpiTakeHome" style="display:none;">
             <div class="top">
               <div>
-                <div class="muted" style="font-size:12px;">Salary used</div>
+                <div class="muted" style="font-size:12px;">အသုံးပြုပြီးသော salary</div>
                 <div class="val" id="salaryUsed">—</div>
               </div>
               <span class="tag good">AED</span>
             </div>
-            <div class="muted" style="font-size:12px;">We treat “basic salary” as your budget base.</div>
+            <div class="muted" style="font-size:12px;">သင့်လစာအပေါ် အခြေခံပြီး တွက်ချက်ခြင်းကို ပြုလုပ်ပါမည်။</div>
           </div>
 
           <div class="kpi" id="kpiSavings" style="display:none;">
@@ -243,9 +242,8 @@
       </div>
 
       <div class="note">
-        Tip: If “Accommodation” is too high, your biggest levers in the UAE are <b>shared housing</b>, <b>living farther from prime areas</b>,
-        and choosing <b>public transport</b> where possible.
-      </div>
+        Tip: Accommodation စရိတ်ကများနေရင် shared accommodation (room share) ကို စဉ်းစားပါ။ Rent က ၄၀% ထက်မကျော်သင့်ပါ။ သက်သာမယ့်နေရာတွေမှာနေပြီး
+        public transport ကို အသုံးပြုနိုင်ရင် Commute စရိတ်လည်း သက်သာမှာ ဖြစ်ပါတယ်။
     </section>
 
     <!-- FACTS -->
@@ -288,18 +286,17 @@
           </details>
 
           <details>
-            <summary>Utilities reference (DEWA)</summary>
+            <summary>Utilities reference</summary>
             <div class="small">
-              DEWA has an official tariff calculator to estimate electricity & water usage. Utilities can swing heavily with A/C use (summer).
-              In this calculator, we show a conservative utilities allocation and advise users to validate with DEWA’s calculator.
+              တစ်ကိုယ်ရည် တစ်ကာယ အတွက် အသုံးစရိတ်တွေ ကွာခြားနိုင်ပါတယ်။
             </div>
           </details>
 
           <details>
             <summary>Medical / insurance note</summary>
             <div class="small">
-              In the UAE, many employees have employer-provided insurance; if not, costs vary widely by coverage. This calculator allocates a
-              basic “medical buffer” and suggests building an emergency fund first.
+              UAE တွင် အများစုမှ အလုပ်ရှင်က insurance ကို ပေးထားပါတယ်။ မပေးရင်တော့ coverage အလိုက် စရိတ်များကွာခြားနိုင်ပါတယ်။ 
+              ဒီ calculator မှာ အခြေခံ "medical buffer" ခွဲခြားထားပြီး အရင်ဆုံး emergency fund တည်ဆောက်ဖို့ အကြံပြုပါတယ်။
             </div>
           </details>
         </div>
@@ -309,7 +306,7 @@
   </main>
 
   <div class="footer">
-    Built as a simple static site (no backend). You can host it on any web server.
+    this is for the purpose of general budgeting guidance only. not personal financial advice. &copy; 2025 burmese.ae
   </div>
 
   <script>
@@ -344,16 +341,16 @@
     // We keep "Savings" and "Investing" separate because your brief said both.
     const BUDGET = {
       low: [
-        { k:"Accommodation",   p:38, note:"Shared housing recommended. If rent >40% of salary, reduce housing cost first." },
+        { k:"Accommodation",   p:38, note:"Shared နေတာကို recommend ပေးပါတယ်၊ rent က ၄၀​% ထက်မကျော်သင့်ပါ။ " },
         { k:"Utilities",       p: 6, note:"Electricity/water/gas; A/C season can spike bills." },
-        { k:"Food & Groceries",p:14, note:"Cook more. Track deliveries; they silently drain budgets." },
-        { k:"Commute",         p: 8, note:"Public transport where possible. If driving, fuel/parking/salik adds up." },
-        { k:"Medical Buffer",  p: 5, note:"If employer insurance exists, this becomes extra savings." },
-        { k:"Telecom/Internet",p: 4, note:"SIM + home internet (or share). Review plans yearly." },
-        { k:"Lifestyle",       p: 5, note:"Cap discretionary spends; avoid “small daily” leaks." },
-        { k:"Family/Other",    p: 3, note:"Remittances, essentials, subscriptions." },
+        { k:"Food & Groceries",p:14, note:"ချက်စားပါ အပြင်မှာစားတာမျိုး​ရံဖန်ရံခါပဲ ပြုလုပ်သင့်ပါတယ်" },
+        { k:"Commute",         p: 8, note:"Public transport ကိုပဲအကြုံပြုပါတယ်." },
+        { k:"Medical Buffer",  p: 5, note:"အလုပ်ရှင်က insurance ပေးထားရင်တော့ ဒါက သင့်အတွက်အပိုဝင်ငွေဖြစ်နိုင်ပါတယ်" },
+        { k:"Telecom/Internet",p: 4, note:"အိမ်က wifi ကိုပဲအသုံးပြုပါ၊ ဖုန်းခေါ်ဖို့ internet package နည်းနည်းပါးပါးဝယ်ဖို့ပဲအကြုံပြုပါတယ်." },
+        { k:"Lifestyle",       p: 5, note:"အားကစားလုပ်ပါ၊ ကျန်းမာခြင်းက လာဘ်တစ်ပါးပါ." },
+        { k:"Family/Other",    p: 3, note:"တစ်ခြား expense တွေကို ကာနိုင်ရင် အိမ်ကိုပိုပို့လိုရပါတယ်" },
         { k:"Emergency Fund",  p:12, note:"Goal: 1–3 months expenses first." },
-        { k:"Investing",       p: 5, note:"Only after minimum buffer; start simple & low-fee." },
+        { k:"Investing",       p: 5, note:"ရွှေဝယ်တာမျိုး၊​စုဆောင်းတာမျိုးလုပ်သင့်ပါတယ်" },
       ],
       mid: [
         { k:"Accommodation",   p:32, note:"Aim 25–35%. If above, consider area/size trade-offs." },
