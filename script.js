@@ -348,15 +348,12 @@ window.addEventListener("scroll", () => {
     let taxStart = entryDate < taxCHARGE_START ? taxCHARGE_START : entryDate;
     taxStart = taxStartOfMonth(taxStart);
 
-    /* ---- END DATE: based on CURRENT date (today) ---- */
-    const taxToday = new Date();
-    const taxCurrentYear = taxToday.getFullYear();
-    const taxCurrentMonth = taxToday.getMonth() + 1; // 1..12
+/* ---- END DATE: always END of NEXT year's March ---- */
+const taxToday = new Date();
+const taxEndYear = taxToday.getFullYear() + 1;
 
-    // If current month is after Sep, charge through NEXT year's Sep
-    const taxEndYear = taxCurrentMonth <= 9 ? taxCurrentYear : taxCurrentYear + 1;
-
-    const taxEndMonthStart = new Date(taxEndYear, 8, 1); // Sep 1
+// April 0 = last day of March
+const taxEndMonthStart = new Date(taxEndYear, 3, 0); // March 31
 
     // If the start is after end, nothing to charge
     if (taxStart > taxEndMonthStart) {
@@ -367,7 +364,7 @@ window.addEventListener("scroll", () => {
         months: 0,
         monthly: salary * taxRATE,
         total: 0,
-        note: "Entry date is after the charging period end (September).",
+        note: "Entry date is after the charging period end (next year March).",
       };
     }
 
